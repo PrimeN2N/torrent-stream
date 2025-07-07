@@ -1,8 +1,17 @@
-"dependencies": {
-  "puppeteer": "^22.7.1",
-  "puppeteer-extra": "^4.2.1",
-  "puppeteer-extra-plugin-stealth": "^2.11.1",
-  "express": "^4.19.2",
-  "axios": "^1.7.2"
+{
+  "name": "stream-scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.7.1",
+    "puppeteer-extra": "^4.2.1",
+    "puppeteer-extra-plugin-stealth": "^2.11.1",
+    "express": "^4.19.2",
+    "axios": "^1.7.2"
+  }
 }
 
