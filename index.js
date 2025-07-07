@@ -5,6 +5,7 @@ import axios from 'axios';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Function to get a free proxy (optional, can be skipped if not needed)
 async function getFreeProxy() {
   try {
     const response = await axios.get('https://www.sslproxies.org/');
@@ -26,20 +27,20 @@ app.get('/api/stream', async (req, res) => {
     const proxy = await getFreeProxy();
     console.log('Using proxy:', proxy || 'None');
 
-    const launchOptions = {
+    const browser = await puppeteer.launch({
       headless: true,
+      executablePath: puppeteer.executablePath(),   // ✅ FIX: Use bundled Chromium
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
         ...(proxy ? [`--proxy-server=http://${proxy}`] : [])
       ],
-    };
+    });
 
-    const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
     await page.goto(embedUrl, { waitUntil: 'networkidle2', timeout: 30000 });
 
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(5000);  // Wait for JS to possibly load video
 
     const content = await page.content();
     const m3u8Match = content.match(/https?:\/\/[^"']+\.m3u8[^"']*/);
